@@ -16,7 +16,7 @@ The client has the same user and password, but that isnt as important to change 
 
 Also my machine did not have nano installed. As I am personally more familiar with nano, I installed it using `yum install nano`.
 
-### Network configuration (1.3)
+### Network configuration (1.2.1)
 
 Firstly we need to get our networking in order, so on the server we simply type `sudo ip a` and take note of all internet adapters. As you can see below ours is **ens192**. The lo is simply a loopback.
 
@@ -46,3 +46,55 @@ If everything is right you should be able to ping. This can be done by doing the
 - `ping <default_gateway>` upon failure your gateway/mask is wrong.
 - `ping 8.8.8.8` there is no connection to outside.
 - `ping google.com` the DNS is wrong.
+
+### MOBAXTERM 
+
+Before we go any further, let's go to our client and also change the network settings. This is done by GUI so that shouldn't be that much of a problem.
+Don't forget to ping so you know it works.
+
+Then on your client you will want to install XRDP. This will allow Remote desktop connections. Do this by opening a terminal and doing the following:
+sudo apt install xrdp
+sudo systemctl enable xrdp
+sudo apt-get install xfce4
+sudo echo xfce4-session >~/.xsession
+sudo nano /etc/xrdp/startwm.sh
+```
+The file should look like: (add the last line)
+```
+#!/bin/sh
+
+if [ -r /etc/default/locale ]; then
+  . /etc/default/locale
+  export LANG LANGUAGE
+fi
+
+startxfce4
+```
+Then finish up with a `sudo service xrdp restart`.
+
+Now you can use mobaXterm to make a RDP connection to your client. The same can be done for the server, but as a SSH connection. This will make it easier to use, since we won't be needing to use VMRC and have simple tabs to open the wanted machine.
+
+### Remote Access (1.2.2)
+
+Firstly it is handy to take note of where the login attempts are stored on the server, `/var/log/secure`. Also it might be handy to take notice of where approved SSH keys are stored `~/.ssh/authorized_keys`.
+
+Now we access our client and create a simple SSH key 
+```
+ssh-keygen -t rsa -b 4096
+ssh-copy-id student@<ip_server>
+```
+This will create a keypair on the client and send a public key to the server, this way we can SSH from a client to the server, incase we cant access the machine physically.
+
+To check if it is running simply use `/sbin/service sshd status` on the server.
+
+To make this connection simply `ssh student@<ip_server>` from the client.
+
+## The FHS (1.3)
+
+There are 2 major indicators of each file in Linux. That being Sharability and Variability. A non sharable file is a file that is personal to the system (think of configs) and a unvariable file is a file that shouldn't change other than by a sysadmin (think boot). both of them have their inverts and those can be combined to form 4 categories of files.
+
+Some fun tidbits of paths are:
+- `/proc/meminfo` (information memory)
+- `/etc/sysconfig/firewalld` (Firewall config)
+- `/bin/ssh-keygen` (ssh key generator)
+- `/home/student/desktop` (location of the desktop for Student)
