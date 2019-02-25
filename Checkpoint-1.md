@@ -53,6 +53,7 @@ Before we go any further, let's go to our client and also change the network set
 Don't forget to ping so you know it works.
 
 Then on your client you will want to install XRDP. This will allow Remote desktop connections. Do this by opening a terminal and doing the following:
+```
 sudo apt install xrdp
 sudo systemctl enable xrdp
 sudo apt-get install xfce4
