@@ -14,7 +14,7 @@ The server has the a user with administrator rights named **student** with the p
 
 The client has the same user and password, but that isnt as important to change in this excersize, as this is server focused, not client.
 
-Also my machine did not have nano installed. As I am personally more familiar with nano, I installed it using `yum install nano`.
+Also my machine did not have nano installed. As I am personally more familiar with nano, I installed it using `sudo yum install nano`.
 
 ### Network configuration (1.2.1)
 
@@ -26,15 +26,15 @@ Alright, now that we know _what_ to change, let's do it! We will go to the file 
 
 The things you want to edit are:
 ```
-ONBOOT=yes
-BOOTPROTO=static
-NM_CONTROLLED=no
-IPADDR=<ip_server>
-NETMASK=<subnet_server>
-GATEWAY=<default_gateway>
+ONBOOT="yes"
+BOOTPROTO="static"
+NM_CONTROLLED="no"
+IPADDR="<ip_server>"
+NETMASK="<subnet_server>"
+GATEWAY="<default_gateway>"
 ```
 
-Next up we are going to change the hostname, this is done simply with `set-hostname <name>`.
+Next up we are going to change the hostname, this is done simply with `sudo hostenamectl set-hostname <name>`.
 
 Afterwards go to `sudo nano /etc/resolv.conf` and add or edit the file to contain your wanted DNS's.
 ```
@@ -49,8 +49,7 @@ If everything is right you should be able to ping. This can be done by doing the
 
 ### MOBAXTERM 
 
-Before we go any further, let's go to our client and also change the network settings. This is done by GUI so that shouldn't be that much of a problem.
-Don't forget to ping so you know it works.
+Before we go any further, let's go to our client and also change the network settings. This is done by GUI so that shouldn't be that much of a problem. You will want to set the IP static. Don't forget to ping so you know it works.
 
 Then on your client you will want to install XRDP. This will allow Remote desktop connections. Do this by opening a terminal and doing the following:
 ```
